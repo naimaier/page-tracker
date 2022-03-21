@@ -7,17 +7,17 @@ sites = [
         id: 1,
         title: "Google",
         url: "http://www.google.com",
-        lastVisit: new Date("05/05/2005")
+        visits: []
     }, {
         id: 2,
         title: "G1",
         url: "http://www.g1.com.br",
-        lastVisit: new Date("10/10/2010")
+        visits: []
     }, {
         id: 3,
         title: "DW",
         url: "http://www.dw.com",
-        lastVisit: new Date("12/12/2012")
+        visits: []
     }];
 
 
@@ -36,14 +36,24 @@ function showStoredData() {
 
 function createListElement(site) {
     let li = document.createElement("li");
-    
-    li.innerHTML = `<a href=${site.url} target=blank>${site.title}</a> | ${site.lastVisit.toLocaleDateString("pt-br")}`;
+    let lastVisit = getLastVisit(site);
+    let html = "";
 
-    // TODO metodo visitar: se nao tiver hj na pilha, adiciona
+    html = `<a href=${site.url} target=blank>${site.title}</a>`
+
+    if (lastVisit) {
+        html += `| ${lastVisit.toLocaleDateString("pt-br")}`;
+    } else {
+        html += `| Never visited`;
+    }
+
+    li.innerHTML = html;
+
     let todayButton = document.createElement("button");
     todayButton.innerText = "Today";
     todayButton.onclick = function() {
-        site.lastVisit = new Date();
+
+        visitSite(site);
         
         showStoredData();
     }
@@ -70,4 +80,20 @@ function deleteSite(id) {
 
         sites.splice(i, 1);
     }
+}
+
+function visitSite(site) {
+
+    if (site.visits.includes(new Date())) return;
+
+    site.visits.push(new Date());
+}
+
+function getLastVisit(site) {
+
+    let size = site.visits.length;
+
+    if (size == 0) return false;
+
+    return site.visits[size - 1];
 }
