@@ -1,0 +1,19 @@
+#urls {
+    list-style: none;
+    line-height: 2em;
+}
+
+li {
+    font-size: 14px;
+}
+
+li a {
+    text-decoration: none;
+}
+
+button {
+    border-style: none;
+    background-color: transparent;
+    margin: 5px;
+    cursor: pointer;
+}
