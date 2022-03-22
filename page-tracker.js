@@ -49,29 +49,37 @@ function createListElement(site) {
 
     li.innerHTML = html;
 
-    let todayButton = document.createElement("button");
-    todayButton.innerText = "Today";
-    todayButton.onclick = function() {
+    let visitTodayButton = document.createElement("button");
+    visitTodayButton.onclick = function() {
 
         visitSite(site);
         
         showStoredData();
     }
-    li.appendChild(todayButton);
+    let visitTodayIcon = document.createElement("i");
+    visitTodayIcon.className = "fa fa-calendar-check-o";
+    visitTodayButton.appendChild(visitTodayIcon);
+
+    li.appendChild(visitTodayButton);
 
     let deleteButton = document.createElement("button");
-    deleteButton.innerText = "Delete";
     deleteButton.onclick = function() {
         deleteSite(site.id);
 
         showStoredData();
     }
+    let deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa fa-trash-o";
+    deleteButton.appendChild(deleteIcon);
+
     li.appendChild(deleteButton);
 
     return li;
 }
 
+
 function addSite() {}
+
 
 function deleteSite(id) {
     
@@ -82,12 +90,16 @@ function deleteSite(id) {
     }
 }
 
+
 function visitSite(site) {
 
     if (site.visits.includes(new Date())) return;
 
+    if (site.visits.length >= 5) site.visits.shift();
+
     site.visits.push(new Date());
 }
+
 
 function getLastVisit(site) {
 
